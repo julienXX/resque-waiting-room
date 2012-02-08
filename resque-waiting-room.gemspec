@@ -27,5 +27,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'guard-rspec', '~>0.6.0'
   s.add_development_dependency 'guard-spork', '~>0.3.0'
   s.add_development_dependency 'rb-fsevent', '~>0.4.3.1'
+  s.add_development_dependency 'mock_redis', '~>0.3.0'
 
 end

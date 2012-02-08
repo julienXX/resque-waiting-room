@@ -1,7 +1,7 @@
 require 'spork'
-require 'rr'
 require 'resque'
 require 'resque/plugins/waiting-room'
+require 'mock_redis'
 
 Spork.prefork do
   spec_dir = File.dirname(__FILE__)
