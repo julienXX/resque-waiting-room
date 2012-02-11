@@ -18,7 +18,6 @@ module Resque
 
           if performs_left < 1
             Resque.push 'waiting_room', :class => self.to_s, :args => args
-            Resque.redis.incrby(key, 1)
             raise Resque::Job::DontPerform
           end
         end
@@ -38,13 +37,9 @@ module Resque
         key = waiting_room_redis_key
         value = Resque.redis.get(key)
         no_performs_left = value && value != "" && value.to_i <= 0
+        Resque.push 'waiting_room', class: self.to_s, args: args if no_performs_left
 
-        if no_performs_left
-          Resque.push 'waiting_room', class: self.to_s, args: args
-          return true
-        else
-          return false
-        end
+        return no_performs_left
       end
 
     end
