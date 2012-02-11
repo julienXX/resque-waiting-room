@@ -1,7 +1,7 @@
 require 'spork'
 require 'resque'
+require 'resque/job'
 require 'resque/plugins/waiting-room'
-require 'mock_redis'
 
 Spork.prefork do
   spec_dir = File.dirname(__FILE__)
@@ -9,6 +9,9 @@ Spork.prefork do
   $:.unshift(lib_dir)
   $:.uniq!
   RSpec.configure do |config|
-    config.mock_with :rr
+    config.mock_framework = :rspec
   end
+
+  # Require ruby files in support dir.
+  Dir[File.expand_path('spec/support/*.rb')].each { |file| require file }
 end
