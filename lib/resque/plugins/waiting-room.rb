@@ -12,9 +12,7 @@ module Resque
             klass = constantize(payload['class'])
             repushed_in_waiting_room = klass.repush(*payload['args'])
 
-            unless repushed_in_waiting_room
-              return new(queue, payload)
-            end
+            return new(queue, payload) unless repushed_in_waiting_room
           end
           return nil
         else
