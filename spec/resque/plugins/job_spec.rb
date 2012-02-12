@@ -14,7 +14,7 @@ describe Resque::Job do
   end
 
   context "waiting_room job" do
-    it "should push in the waiting_room queue when reserve" do
+    it "should push in the waiting_room queue when reserve from waiting_room queue" do
       Resque.push('waiting_room', :class => 'DummyJob', :args => ['any args'])
       Resque::Job.reserve('waiting_room').should == Resque::Job.new('waiting_room', {'class' => 'DummyJob', 'args' => ['any args']})
       Resque::Job.reserve('normal').should be_nil
@@ -24,11 +24,13 @@ describe Resque::Job do
       Resque.push('waiting_room', :class => 'DummyJob', :args => ['any args'])
       DummyJob.should_receive(:repush).with('any args')
       Resque::Job.reserve('waiting_room').should == Resque::Job.new('waiting_room', {'class' => 'DummyJob', 'args' => ['any args']})
+      Resque::Job.reserve('waiting_room').should be_nil
       Resque::Job.reserve('normal').should be_nil
     end
 
     it "should not repush when reserve normal queue" do
       Resque.push('normal', :class => 'DummyJob', :args => ['any args'])
+      DummyJob.should_not_receive(:repush).with('any args')
       Resque::Job.reserve('normal').should == Resque::Job.new('normal', {'class' => 'DummyJob', 'args' => ['any args']})
       Resque::Job.reserve('normal').should be_nil
       Resque::Job.reserve('waiting_room').should be_nil
