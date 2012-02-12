@@ -1,5 +1,4 @@
-require File.join(File.dirname(__FILE__) + '/../spec_helper')
-
+require File.join(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Resque::Job do
   before(:each) do
@@ -23,7 +22,8 @@ describe Resque::Job do
 
     it "should push back to waiting_room queue when still restricted" do
       Resque.push('waiting_room', :class => 'DummyJob', :args => ['any args'])
-      Resque.pop('waiting_room').should == {'class' => 'DummyJob', 'args' => ['any args']}
+      DummyJob.should_receive(:repush).with('any args')
+      Resque::Job.reserve('waiting_room').should == Resque::Job.new('waiting_room', {'class' => 'DummyJob', 'args' => ['any args']})
       Resque::Job.reserve('normal').should be_nil
     end
 
