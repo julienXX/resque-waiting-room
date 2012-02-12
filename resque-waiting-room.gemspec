@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version     = "0.0.1"
   s.authors     = ["Julien Blanchard"]
   s.email       = ["julien@sideburns.eu"]
-  s.homepage    = ""
+  s.homepage    = "https://www.github.com/julienXX/resque-waiting-room"
   s.summary     = %q{Put your Resque jobs in a waiting room}
   s.description = %q{Throttle your Resque jobs}
 
