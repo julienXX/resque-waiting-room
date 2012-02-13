@@ -6,8 +6,8 @@ module Resque
       def can_be_performed(params)
         raise MissingParams unless params.is_a?(Hash) && params.keys.sort == [:period, :times]
 
-        @period = params[:period]
-        @max_performs = params[:times].to_i
+        @period ||= params[:period]
+        @max_performs ||= params[:times].to_i
       end
 
       def waiting_room_redis_key
