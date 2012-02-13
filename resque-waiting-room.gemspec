@@ -1,9 +1,11 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../lib/resque/plugins", __FILE__)
+puts $:
+require "version"
 
 Gem::Specification.new do |s|
   s.name        = "resque-waiting-room"
-  s.version     = "0.0.1"
+  s.version     = Resque::Plugins::WaitingRoom::VERSION
   s.authors     = ["Julien Blanchard"]
   s.email       = ["julien@sideburns.eu"]
   s.homepage    = "https://www.github.com/julienXX/resque-waiting-room"
