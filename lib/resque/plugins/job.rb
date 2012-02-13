@@ -1,5 +1,3 @@
-require 'resque'
-
 module Resque
   class Job
     class <<self
