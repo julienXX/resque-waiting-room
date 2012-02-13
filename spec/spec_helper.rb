@@ -1,6 +1,6 @@
 require 'spork'
 require 'resque'
-require 'resque/job'
+require 'resque/plugins/job'
 require 'resque/plugins/waiting-room'
 
 Spork.prefork do
