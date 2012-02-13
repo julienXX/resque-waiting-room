@@ -17,7 +17,7 @@ module Resque
       def before_perform_waiting_room(*args)
         key = waiting_room_redis_key
 
-        if count_key(key, @max_performs)
+        if has_remaining_performs_key?(key, @max_performs)
           performs_left = Resque.redis.decrby(key, 1).to_i
 
           if performs_left < 1
@@ -27,12 +27,12 @@ module Resque
         end
       end
 
-      def count_key(key, number_of_performs)
+      def has_remaining_performs_key?(key, number_of_performs)
         # Redis SETNX: sets the keys if it doesn't exist, returns true if key was created
-        key_created = Resque.redis.setnx(key, number_of_performs - 1)
-        Resque.redis.expire(key, @period) if key_created
+        new_key = Resque.redis.setnx(key, number_of_performs - 1)
+        Resque.redis.expire(key, @period) if new_key
 
-        return !key_created
+        return !new_key
       end
 
       def repush(*args)
