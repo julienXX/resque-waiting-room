@@ -28,12 +28,11 @@ module Resque
       end
 
       def count_key(key, number_of_performs)
-        # Redis SETNX: sets the keys if it doesn't exist, returns true if key exist
-        key_created = !Resque.redis.setnx(key, number_of_performs - 1)
-        # Redis EXPIRE: returns TTL or -1 if key doesn't exist/has no ttl
+        # Redis SETNX: sets the keys if it doesn't exist, returns true if key was created
+        key_created = Resque.redis.setnx(key, number_of_performs - 1)
         Resque.redis.expire(key, @period) if key_created
 
-        return key_created
+        return !key_created
       end
 
       def repush(*args)

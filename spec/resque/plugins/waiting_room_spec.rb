@@ -56,26 +56,26 @@ describe Resque::Plugins::WaitingRoom do
     end
 
     it "should expire the redis key with period" do
-      Resque.redis.should_receive(:setnx).and_return(false)
+      Resque.redis.should_receive(:setnx).and_return(true)
       Resque.redis.should_receive(:expire)
       DummyJob.count_key(DummyJob.waiting_room_redis_key, 10)
     end
 
     it "should not re-expire the redis key if it is already created" do
-      Resque.redis.should_receive(:setnx).and_return(true)
+      Resque.redis.should_receive(:setnx).and_return(false)
       Resque.redis.should_not_receive(:expire)
       DummyJob.count_key(DummyJob.waiting_room_redis_key, 10)
     end
 
-    it "should return true if the key was created" do
-      Resque.redis.should_receive(:setnx).and_return(false)
+    it "should return false if the key was created" do
+      Resque.redis.should_receive(:setnx).and_return(true)
       Resque.redis.should_receive(:expire)
-      DummyJob.count_key(DummyJob.waiting_room_redis_key, 10).should == true
+      DummyJob.count_key(DummyJob.waiting_room_redis_key, 10).should == false
     end
 
-    it "should return false if the kay was already created" do
-      Resque.redis.should_receive(:setnx).and_return(true)
-      DummyJob.count_key(DummyJob.waiting_room_redis_key, 10).should == false
+    it "should return true if the kay was already created" do
+      Resque.redis.should_receive(:setnx).and_return(false)
+      DummyJob.count_key(DummyJob.waiting_room_redis_key, 10).should == true
     end
   end
 
