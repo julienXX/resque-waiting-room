@@ -56,30 +56,33 @@ describe Resque::Plugins::WaitingRoom do
   context "has_remaining_performs_key?" do
     it "should set a redis key" do
       Resque.redis.should_receive(:setnx)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key, 10)
+      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
-    it "should expire the redis key with period" do
+    it "should expire the redis key" do
       Resque.redis.should_receive(:setnx).and_return(true)
       Resque.redis.should_receive(:expire)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key, 10)
+      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should not re-expire the redis key if it is already created" do
+      Resque.redis.should_receive(:setnx).and_return(true)
+      Resque.redis.should_receive(:expire)
+      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
       Resque.redis.should_receive(:setnx).and_return(false)
       Resque.redis.should_not_receive(:expire)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key, 10)
+      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should return false if the key is new" do
       Resque.redis.should_receive(:setnx).and_return(true)
       Resque.redis.should_receive(:expire)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key, 10).should == false
+      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key).should == false
     end
 
     it "should return true if the key was already created" do
       Resque.redis.should_receive(:setnx).and_return(false)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key, 10).should == true
+      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key).should == true
     end
   end
 
