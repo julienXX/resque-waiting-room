@@ -1,7 +1,6 @@
 require 'spork'
 require 'resque'
-require 'resque/plugins/job'
-require 'resque/plugins/waiting-room'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'resque-waiting-room'))
 
 Spork.prefork do
   spec_dir = File.dirname(__FILE__)
