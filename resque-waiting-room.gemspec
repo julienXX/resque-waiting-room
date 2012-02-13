@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib/resque/plugins", __FILE__)
-puts $:
 require "version"
 
 Gem::Specification.new do |s|

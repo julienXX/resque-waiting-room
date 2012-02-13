@@ -33,7 +33,6 @@ module Resque
       end
 
       def repush(*args)
-        has_restrictions = false
         key = waiting_room_redis_key
         value = Resque.redis.get(key)
         no_performs_left = value && value != "" && value.to_i <= 0
@@ -41,7 +40,6 @@ module Resque
 
         return no_performs_left
       end
-
     end
   end
 end
