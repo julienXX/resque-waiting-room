@@ -10,6 +10,10 @@ describe Resque::Plugins::WaitingRoom do
   end
 
   context "can_be_performed" do
+    it "should raise InvalidParams" do
+      expect {DummyJob.can_be_performed('lol')}.should raise_error(Resque::Plugins::WaitingRoom::MissingParams)
+    end
+
     it "should assign @period and @max_performs" do
       DummyJob.instance_variable_get("@period").should == 30
       DummyJob.instance_variable_get("@max_performs").should == 10
