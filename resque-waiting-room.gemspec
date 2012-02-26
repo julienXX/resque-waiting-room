@@ -21,11 +21,4 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake', '~>0.9.2.2'
   s.add_development_dependency 'resque', '~>1.19.0'
-  s.add_development_dependency 'rspec', '~>2.8.0'
-  s.add_development_dependency 'fuubar', '~>1.0.0'
-  s.add_development_dependency 'spork', '~>0.9.0'
-  s.add_development_dependency 'guard', '~>0.10.0'
-  s.add_development_dependency 'guard-rspec', '~>0.6.0'
-  s.add_development_dependency 'guard-spork', '~>0.3.0'
-  s.add_development_dependency 'rb-fsevent', '~>0.4.3.1'
 end
