@@ -1,7 +1,7 @@
 Resque Waiting Room
 ===================
 
-A [Resque][rq] plugin. Requires Resque 1.19.0.
+A [Resque][rq] plugin. Requires Resque >= 1.19.
 
 If you want to limit the number of performs of a job for a given period, extend it
 with this module.
@@ -21,10 +21,12 @@ For example:
       end
     end
 
-If 10 UpdateDataFromExternalAPI jobs have been performed in less than
-30 seconds, next job will be placed placed in the waiting_room queue
+If 10 UpdateDataFromExternalAPI jobs have been performed in 30
+seconds, next job will be placed placed in the waiting_room queue
 and processed when possible.
 
 [rq]: http://github.com/julienXX/resque
+
+[![Build Status](https://travis-ci.org/julienXX/resque-waiting-room.png)](https://travis-ci.org/julienXX/resque-waiting-room)
 
 [![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
