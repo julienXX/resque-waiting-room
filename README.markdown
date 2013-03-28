@@ -54,6 +54,4 @@ You got to manually tweak the queue names in your workers though.
 
 [rq]: http://github.com/julienXX/resque
 
-[![Build Status](https://travis-ci.org/julienXX/resque-waiting-room.png)](https://travis-ci.org/julienXX/resque-waiting-room)
-
-[![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
+[![Build Status](https://travis-ci.org/julienXX/resque-waiting-room.png)](https://travis-ci.org/julienXX/resque-waiting-room) [![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
