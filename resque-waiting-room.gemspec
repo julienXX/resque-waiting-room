@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.files         += Dir.glob("lib/**/*")
   s.files         += Dir.glob("spec/**/*")
 
-  s.add_development_dependency 'rake', '~>0.9.2.2'
-  s.add_development_dependency 'resque', '~>1.19.0'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'resque'
 end
