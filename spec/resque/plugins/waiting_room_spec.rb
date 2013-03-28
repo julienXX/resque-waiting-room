@@ -11,7 +11,7 @@ describe Resque::Plugins::WaitingRoom do
 
   context "can_be_performed" do
     it "should raise InvalidParams" do
-      expect {DummyJob.can_be_performed('lol')}.should raise_error(Resque::Plugins::WaitingRoom::MissingParams)
+      expect { DummyJob.can_be_performed('lol') }.to raise_error(Resque::Plugins::WaitingRoom::MissingParams)
     end
 
     it "should assign @period and @max_performs" do
@@ -49,7 +49,7 @@ describe Resque::Plugins::WaitingRoom do
     it "should prevent perform once there are no performs left" do
       9.times {DummyJob.before_perform_waiting_room('args')}
       Resque.redis.get("DummyJob:remaining_performs").should =="1"
-      expect { DummyJob.before_perform_waiting_room('args') }.should raise_exception(Resque::Job::DontPerform)
+      expect { DummyJob.before_perform_waiting_room('args') }.to raise_exception(Resque::Job::DontPerform)
     end
   end
 
@@ -115,4 +115,3 @@ describe Resque::Plugins::WaitingRoom do
   end
 
 end
-
