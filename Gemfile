@@ -5,10 +5,4 @@ gemspec
 
 group :test do
   gem 'rspec'
-  gem 'fuubar'
-  gem 'spork'
-  gem 'guard'
-  gem 'guard-rspec'
-  gem 'guard-spork'
-  gem 'rb-fsevent'
 end
