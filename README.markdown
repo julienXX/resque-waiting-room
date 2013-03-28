@@ -26,3 +26,5 @@ If 10 UpdateDataFromExternalAPI jobs have been performed in less than
 and processed when possible.
 
 [rq]: http://github.com/julienXX/resque
+
+[![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
