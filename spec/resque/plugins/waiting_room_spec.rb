@@ -49,7 +49,7 @@ describe Resque::Plugins::WaitingRoom do
     it "should prevent perform once there are no performs left" do
       9.times {DummyJob.before_perform_waiting_room('args')}
       Resque.redis.get("DummyJob:remaining_performs").should =="1"
-      expect { DummyJob.before_perform_waiting_room('args') }.to raise_exception(Resque::Job::DontPerform)
+      expect { DummyJob.before_perform_waiting_room('args') }.to raise_exception(Resque::DontPerform)
     end
   end
 
