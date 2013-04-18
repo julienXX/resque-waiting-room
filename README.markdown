@@ -44,6 +44,18 @@ When the first 30 seconds are elapsed, the counter is set back to 0
 and 10 jobs can be performed again.
 You got to manually tweak the queue names in your workers though.
 
+## Testing
+
+We include a matcher
+
+    require 'resque/plugins/waiting_rooms/matchers'
+
+    describe MyJob do
+      it 'is rate limited' do
+        MyJob.should be_only_performed(times: 100, period: 300)
+      end
+    end
+
 ## Contributing
 
 1. Fork it

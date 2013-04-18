@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__) + '/../../spec_helper')
-
 describe Resque::Plugins::WaitingRoom do
   before(:each) do
     Resque.redis.flushall
@@ -23,6 +22,12 @@ describe Resque::Plugins::WaitingRoom do
   context "waiting_room_redis_key" do
     it "should generate a redis key name based on the class" do
       DummyJob.waiting_room_redis_key.should == 'DummyJob:remaining_performs'
+    end
+  end
+
+  context "custom matcher" do
+    it "should match positive" do
+      DummyJob.should be_only_performed(times: 10, period: 30)
     end
   end
 

@@ -1,6 +1,7 @@
 require 'resque'
 require 'mock_redis'
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'resque-waiting-room'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'resque', 'plugins', 'waiting_room', 'matchers'))
 
 RSpec.configure do |config|
   config.mock_framework = :rspec
