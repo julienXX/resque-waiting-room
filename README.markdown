@@ -64,6 +64,10 @@ We include a matcher
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+## Contributors
+
+Thanks to Thomas Devol [@socialchorus](https://github.com/socialchorus) for adding the RSpec matcher.
+
 [rq]: http://github.com/resque/resque
 
 [![Build Status](https://travis-ci.org/julienXX/resque-waiting-room.png)](https://travis-ci.org/julienXX/resque-waiting-room) [![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
