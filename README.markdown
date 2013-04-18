@@ -48,7 +48,7 @@ You got to manually tweak the queue names in your workers though.
 
 We include a matcher
 
-    require 'resque/plugins/waiting_rooms/matchers'
+    require 'spec/support/matchers'
 
     describe MyJob do
       it 'is rate limited' do
@@ -64,6 +64,6 @@ We include a matcher
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-[rq]: http://github.com/julienXX/resque
+[rq]: http://github.com/resque/resque
 
 [![Build Status](https://travis-ci.org/julienXX/resque-waiting-room.png)](https://travis-ci.org/julienXX/resque-waiting-room) [![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
