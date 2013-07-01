@@ -1,10 +1,10 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 # Specify your gem's dependencies in resque-waiting-room.gemspec
 gemspec
 
 group :development do
-  gem 'resque', github: 'resque/resque'
+  gem 'resque', '~>1.24.1'
 end
 
 group :test do
