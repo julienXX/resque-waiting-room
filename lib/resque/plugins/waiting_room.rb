@@ -22,7 +22,7 @@ module Resque
 
           if performs_left < 1
             Resque.push 'waiting_room', class: self.to_s, args: args
-            raise Resque::DontPerform
+            raise Resque::Job::DontPerform
           end
         end
       end
