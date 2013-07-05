@@ -6,11 +6,6 @@ A [Resque][rq] plugin. Requires Resque >= 1.19 and a >= 1.9 Ruby (MRI, JRuby or 
 If you want to limit the number of performs of a job for a given period, extend it
 with this module.
 
-## MD Jun-2013 Changes
-
-There was a problem with Resque 1.24 where the DontPerform exception was moved to Resque::Job:DontPerform so
-I made that change in the 'before_perform_waiting_room' method.
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -69,9 +64,10 @@ We include a matcher
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Contributors
+## Thanks to the following people for helping out ##
 
-Thanks to Thomas Devol [@socialchorus](https://github.com/socialchorus) for adding the RSpec matcher.
+- Thomas Devol [@socialchorus](https://github.com/socialchorus) for adding the RSpec matcher
+- Max Dunn [@maxdunn210](https://github.com/maxdunn210) for making me switch Resque 2 specific code in it's own branch
 
 [rq]: http://github.com/resque/resque
 
