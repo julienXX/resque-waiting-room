@@ -64,9 +64,10 @@ We include a matcher
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Contributors
+## Thanks to the following people for helping out ##
 
-Thanks to Thomas Devol [@socialchorus](https://github.com/socialchorus) for adding the RSpec matcher.
+- Thomas Devol [@socialchorus](https://github.com/socialchorus) for adding the RSpec matcher
+- Max Dunn [@maxdunn210](https://github.com/maxdunn210) for making me switch Resque 2 specific code in it's own branch
 
 [rq]: http://github.com/resque/resque
 
