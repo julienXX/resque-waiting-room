@@ -1,13 +1,13 @@
 module Resque
   class Job
-    class <<self
+    class << self
       alias_method :origin_reserve, :reserve
 
       def reserve(queue)
         if queue =~ /^waiting_room/ && Resque.size(queue) > 0
           payload = Resque.pop(queue)
           if payload
-            klass = constantize(payload['class'])
+            klass = payload['class'].constantize
             repushed_in_waiting_room = klass.repush(*payload['args'])
 
             return new(queue, payload) unless repushed_in_waiting_room
