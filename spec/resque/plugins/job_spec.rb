@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Resque::Job do
+
   before(:each) do
     Resque.redis.flushall
   end
@@ -38,4 +39,3 @@ describe Resque::Job do
   end
 
 end
-
