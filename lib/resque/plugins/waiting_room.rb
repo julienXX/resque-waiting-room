@@ -19,6 +19,7 @@ module Resque
 
         if has_remaining_performs_key?(key)
           performs_left = Resque.redis.decrby(key, 1).to_i
+          ensure_has_expireation(key)
 
           if performs_left < 1
             Resque.push 'waiting_room', class: self.to_s, args: args
@@ -42,6 +43,10 @@ module Resque
         Resque.push 'waiting_room', class: self.to_s, args: args if no_performs_left
 
         return no_performs_left
+      end
+
+      def ensure_has_expireation(key)
+        Resque.redis.expire(key, @period) if Resque.redis.ttl(key) == -1
       end
     end
   end
