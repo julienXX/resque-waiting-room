@@ -68,6 +68,7 @@ We include a matcher
 
 - Thomas Devol [@socialchorus](https://github.com/socialchorus) for adding the RSpec matcher
 - Max Dunn [@maxdunn210](https://github.com/maxdunn210) for making me switch Resque 2 specific code in it's own branch
+- Jeff Durand [@johnnyiller](https://github.com/johnnyiller) for the update of has_remaining_performs_key using the latest form set
 
 [rq]: http://github.com/resque/resque
 
