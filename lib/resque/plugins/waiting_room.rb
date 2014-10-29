@@ -28,9 +28,8 @@ module Resque
       end
 
       def has_remaining_performs_key?(key)
-        # Redis SETNX: sets the keys if it doesn't exist, returns true if key was created
-        #new_key = Resque.redis.setnx(key, @max_performs - 1)
-        #Resque.redis.expire(key, @period) if new_key
+        # Redis SET: with the ex and nx option  sets the keys if it doesn't exist, 
+        # returns true if key was created redis => 2.6 required
         new_key = Resque.redis.set(key, @max_performs - 1,{ex: @period, nx: true})
         return !new_key
       end
