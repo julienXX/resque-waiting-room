@@ -14,108 +14,109 @@ describe Resque::Plugins::WaitingRoom do
     end
 
     it "should assign @period and @max_performs" do
-      DummyJob.instance_variable_get("@period").should == 30
-      DummyJob.instance_variable_get("@max_performs").should == 10
+      expect(DummyJob.instance_variable_get("@period")).to eq(30)
+      expect(DummyJob.instance_variable_get("@max_performs")).to eq(10)
     end
   end
 
   context "waiting_room_redis_key" do
     it "should generate a redis key name based on the class" do
-      DummyJob.waiting_room_redis_key.should == 'DummyJob:remaining_performs'
+      expect(DummyJob.waiting_room_redis_key).to eq('DummyJob:remaining_performs')
     end
   end
 
   context "custom matcher" do
     it "should match positive" do
-      DummyJob.should be_only_performed(times: 10, period: 30)
+      expect(DummyJob).to be_only_performed(times: 10, period: 30)
     end
   end
 
   context "before_perform_waiting_room" do
     it "should call waiting_room_redis_key" do
-      DummyJob.should_receive(:waiting_room_redis_key).and_return('DummyJob:remaining_performs')
+      expect(DummyJob).to receive(:waiting_room_redis_key).and_return('DummyJob:remaining_performs')
       DummyJob.before_perform_waiting_room('args')
     end
 
     it "should call has_remaining_performs_key?" do
-      DummyJob.should_receive(:has_remaining_performs_key?).and_return(false)
+      expect(DummyJob).to receive(:has_remaining_performs_key?).and_return(false)
       DummyJob.before_perform_waiting_room('args')
     end
 
     it "should decrement performs" do
       DummyJob.before_perform_waiting_room('args')
-      Resque.redis.get("DummyJob:remaining_performs").should =="9"
+      expect(Resque.redis.get("DummyJob:remaining_performs")).to eq("9")
       DummyJob.before_perform_waiting_room('args')
-      Resque.redis.get("DummyJob:remaining_performs").should =="8"
+      expect(Resque.redis.get("DummyJob:remaining_performs")).to eq("8")
       DummyJob.before_perform_waiting_room('args')
-      Resque.redis.get("DummyJob:remaining_performs").should =="7"
+      expect(Resque.redis.get("DummyJob:remaining_performs")).to eq("7")
     end
 
     it "should prevent perform once there are no performs left" do
       9.times {DummyJob.before_perform_waiting_room('args')}
-      Resque.redis.get("DummyJob:remaining_performs").should =="1"
+      expect(Resque.redis.get("DummyJob:remaining_performs")).to eq("1")
       expect { DummyJob.before_perform_waiting_room('args') }.to raise_exception(Resque::Job::DontPerform)
     end
   end
 
   context "has_remaining_performs_key?" do
+    before do
+      @key = DummyJob.waiting_room_redis_key
+      @max = DummyJob.instance_variable_get("@max_performs") - 1 
+      @period = DummyJob.instance_variable_get("@period")
+    end
     it "should set a redis key" do
-      Resque.redis.should_receive(:setnx)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true })
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should expire the redis key" do
-      Resque.redis.should_receive(:setnx).and_return(true)
-      Resque.redis.should_receive(:expire)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(true)
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should not re-expire the redis key if it is already created" do
-      Resque.redis.should_receive(:setnx).and_return(true)
-      Resque.redis.should_receive(:expire)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(true)
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
-      Resque.redis.should_receive(:setnx).and_return(false)
-      Resque.redis.should_not_receive(:expire)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(false)
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should return false if the key is new" do
-      Resque.redis.should_receive(:setnx).and_return(true)
-      Resque.redis.should_receive(:expire)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key).should == false
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(true)
+      expect(DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)).to eq(false)
     end
 
     it "should return true if the key was already created" do
-      Resque.redis.should_receive(:setnx).and_return(false)
-      DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key).should == true
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(false)
+      expect(DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)).to eq(true)
     end
   end
 
   context "repush" do
     it "should call waiting_room_redis_key" do
-      DummyJob.should_receive(:waiting_room_redis_key).and_return('DummyJob:remaining_performs')
+      expect(DummyJob).to receive(:waiting_room_redis_key).and_return('DummyJob:remaining_performs')
       DummyJob.repush('args')
     end
 
     it "should get the key" do
-      Resque.redis.should_receive(:get).with(DummyJob.waiting_room_redis_key)
+      expect(Resque.redis).to receive(:get).with(DummyJob.waiting_room_redis_key)
       DummyJob.repush('args')
     end
 
     it "should push in the waiting_room if there are no performs left" do
-      Resque.redis.should_receive(:get).with(DummyJob.waiting_room_redis_key).and_return('0')
-      Resque.should_receive(:push).with('waiting_room', class: 'DummyJob', args: ['args']).and_return(true)
+      expect(Resque.redis).to receive(:get).with(DummyJob.waiting_room_redis_key).and_return('0')
+      expect(Resque).to receive(:push).with('waiting_room', class: 'DummyJob', args: ['args']).and_return(true)
       DummyJob.repush('args')
     end
 
     it "should return true if there were no performs left" do
-      Resque.redis.should_receive(:get).with(DummyJob.waiting_room_redis_key).and_return('0')
-      DummyJob.repush('args').should == true
+      expect(Resque.redis).to receive(:get).with(DummyJob.waiting_room_redis_key).and_return('0')
+      expect(DummyJob.repush('args')).to eq(true)
     end
 
     it "should return false if there were performs left" do
-      Resque.redis.should_receive(:get).with(DummyJob.waiting_room_redis_key).and_return('1')
-      DummyJob.repush('args').should == false
+      expect(Resque.redis).to receive(:get).with(DummyJob.waiting_room_redis_key).and_return('1')
+      expect(DummyJob.repush('args')).to eq(false)
     end
   end
 

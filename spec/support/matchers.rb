@@ -11,13 +11,13 @@ RSpec::Matchers.define :be_only_performed do |expected_options|
     actual_job_class.instance_variable_get(:@max_performs) == expected_times].all?
   end
 
-  failure_message_for_should do |actual_job_class|
+  failure_message do |actual_job_class|
     actual_times = actual_job_class.instance_variable_get(:@max_performs)
     actual_period = actual_job_class.instance_variable_get(:@period)
     "expected #{actual_job_class} to have defined can_be_performed times: #{expected_options[:times]} period: #{expected_options[:period]}, got can_be_performed times: #{actual_times} period: #{actual_times}"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected #{actual_job_class} to have NOT defined can_be_performed times: #{expected_options[:times]} period: #{expected_options[:period]}"
   end
 
