@@ -28,10 +28,16 @@ module Resque
       end
 
       def has_remaining_performs_key?(key)
+        # if true then we will only set a key if it doesn't exist
+        # if false then we will set the key regardless.  If we have
+        # a negative number then redis either doesn't know about the key
+        # or it doesn't have a ttl, either way we want to create a new key 
+        # with a new ttl.
+        nx = Resque.redis.ttl(key).to_i > 0 
         # Redis SET: with the ex and nx option  sets the keys if it doesn't exist, 
         # returns true if key was created redis => 2.6 required
-        new_key = Resque.redis.set(key, @max_performs - 1,{ex: @period, nx: true})
-        return !new_key
+        # http://redis.io/commands/SET
+        !Resque.redis.set(key, @max_performs - 1,{ex: @period, nx: nx })
       end
 
       def repush(*args)

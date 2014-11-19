@@ -65,29 +65,28 @@ describe Resque::Plugins::WaitingRoom do
       @period = DummyJob.instance_variable_get("@period")
     end
     it "should set a redis key" do
-      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true })
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: false })
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should expire the redis key" do
-      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(true)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: false }).and_return(true)
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should not re-expire the redis key if it is already created" do
-      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(true)
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
       expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(false)
       DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)
     end
 
     it "should return false if the key is new" do
-      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(true)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: false }).and_return(true)
       expect(DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)).to eq(false)
     end
 
     it "should return true if the key was already created" do
-      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: true }).and_return(false)
+      expect(Resque.redis).to receive(:set).with(@key, @max,{ ex: @period, nx: false }).and_return(false)
       expect(DummyJob.has_remaining_performs_key?(DummyJob.waiting_room_redis_key)).to eq(true)
     end
   end
