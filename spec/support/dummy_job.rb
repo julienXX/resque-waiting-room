@@ -4,5 +4,5 @@ class DummyJob
   extend Resque::Plugins::WaitingRoom
   can_be_performed times: 10, period: 30
 
-  def self.perform(*args); end
+  def self.perform(*_); end
 end

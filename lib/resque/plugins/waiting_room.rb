@@ -11,23 +11,21 @@ module Resque
       end
 
       def waiting_room_redis_key
-        [self.to_s, "remaining_performs"].compact.join(":")
+        [self.to_s, 'remaining_performs'].compact.join(':')
       end
 
       def before_perform_waiting_room(*args)
         key = waiting_room_redis_key
+        return unless remaining_performs_key?(key)
 
-        if has_remaining_performs_key?(key)
-          performs_left = Resque.redis.decrby(key, 1).to_i
-
-          if performs_left < 1
-            Resque.push 'waiting_room', class: self.to_s, args: args
-            raise Resque::Job::DontPerform
-          end
+        performs_left = Resque.redis.decrby(key, 1).to_i
+        if performs_left < 1
+          Resque.push 'waiting_room', class: self.to_s, args: args
+          raise Resque::Job::DontPerform
         end
       end
 
-      def has_remaining_performs_key?(key)
+      def remaining_performs_key?(key)
         # if true then we will only set a key if it doesn't exist
         # if false then we will set the key regardless.  If we have
         # a negative number then redis either doesn't know about the key

@@ -17,7 +17,6 @@ module Resque
           origin_reserve(queue)
         end
       end
-
     end
   end
 end
