@@ -56,6 +56,10 @@ We include a matcher
       end
     end
 
+Run tests with the following command
+    
+    bundle exec rake
+
 ## Contributing
 
 1. Fork it
