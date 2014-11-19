@@ -29,19 +29,20 @@ module Resque
         # if true then we will only set a key if it doesn't exist
         # if false then we will set the key regardless.  If we have
         # a negative number then redis either doesn't know about the key
-        # or it doesn't have a ttl, either way we want to create a new key 
+        # or it doesn't have a ttl, either way we want to create a new key
         # with a new ttl.
-        nx = Resque.redis.ttl(key).to_i > 0 
-        # Redis SET: with the ex and nx option  sets the keys if it doesn't exist, 
+        nx = Resque.redis.ttl(key).to_i > 0
+
+        # Redis SET: with the ex and nx option  sets the keys if it doesn't exist,
         # returns true if key was created redis => 2.6 required
         # http://redis.io/commands/SET
-        !Resque.redis.set(key, @max_performs - 1,{ex: @period, nx: nx })
+        !Resque.redis.set(key, @max_performs - 1, ex: @period, nx: nx)
       end
 
       def repush(*args)
         key = waiting_room_redis_key
         value = Resque.redis.get(key)
-        no_performs_left = value && value != "" && value.to_i <= 0
+        no_performs_left = value && value != '' && value.to_i <= 0
         Resque.push 'waiting_room', class: self.to_s, args: args if no_performs_left
 
         return no_performs_left
