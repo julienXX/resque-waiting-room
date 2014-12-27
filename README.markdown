@@ -78,3 +78,7 @@ Run tests with the following command
 [rq]: http://github.com/resque/resque
 
 [![Build Status](https://travis-ci.org/julienXX/resque-waiting-room.png)](https://travis-ci.org/julienXX/resque-waiting-room) [![Code Climate](https://codeclimate.com/github/julienXX/resque-waiting-room.png)](https://codeclimate.com/github/julienXX/resque-waiting-room)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/julienXX/resque-waiting-room/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
