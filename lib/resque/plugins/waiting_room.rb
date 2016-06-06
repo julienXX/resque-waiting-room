@@ -10,12 +10,12 @@ module Resque
         @max_performs ||= params[:times].to_i
       end
 
-      def waiting_room_redis_key
+      def waiting_room_redis_key(*args)
         [self.to_s, 'remaining_performs'].compact.join(':')
       end
 
       def before_perform_waiting_room(*args)
-        key = waiting_room_redis_key
+        key = waiting_room_redis_key(args)
         return unless remaining_performs_key?(key)
 
         performs_left = Resque.redis.decrby(key, 1).to_i
@@ -40,7 +40,7 @@ module Resque
       end
 
       def repush(*args)
-        key = waiting_room_redis_key
+        key = waiting_room_redis_key(args)
         value = Resque.redis.get(key)
         no_performs_left = value && value != '' && value.to_i <= 0
         Resque.push 'waiting_room', class: self.to_s, args: args if no_performs_left
