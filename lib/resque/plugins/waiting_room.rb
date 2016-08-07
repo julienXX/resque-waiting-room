@@ -10,7 +10,7 @@ module Resque
         @max_performs ||= params[:times].to_i
       end
 
-      def waiting_room_redis_key(*args)
+      def waiting_room_redis_key(*_args)
         [self.to_s, 'remaining_performs'].compact.join(':')
       end
 
