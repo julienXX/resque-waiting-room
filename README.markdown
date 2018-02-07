@@ -74,6 +74,7 @@ Run tests with the following command
 - Max Dunn [@maxdunn210](https://github.com/maxdunn210) for making me switch Resque 2 specific code in it's own branch
 - Jeff Durand [@johnnyiller](https://github.com/johnnyiller) for the update of has_remaining_performs_key using the latest form set and the fix for a rare ttl bug
 - Tatsuya Takamura [@ttakamura](https://github.com/ttakamura) for raising the issue on the rare ttl bug
+- Omry Zobel [@omryYotpo](https://github.com/omryYotpo) for allowing some customization of the redis key
 
 [rq]: http://github.com/resque/resque
 

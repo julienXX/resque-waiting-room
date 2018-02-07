@@ -4,7 +4,7 @@ module Resque
       class MissingParams < RuntimeError; end
 
       def can_be_performed(params)
-        raise MissingParams unless params.is_a?(Hash) && params.keys.sort == [:period, :times]
+        raise MissingParams unless params.is_a?(Hash) && params.keys.sort == %i[period times]
 
         @period ||= params[:period]
         @max_performs ||= params[:times].to_i
