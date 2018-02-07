@@ -26,6 +26,11 @@ describe Resque::Plugins::WaitingRoom do
       expect(DummyJob.waiting_room_redis_key)
         .to eq('DummyJob:remaining_performs')
     end
+
+    it 'can have args passed to' do
+      expect(DummyJob.waiting_room_redis_key('123', '111', '4444'))
+        .to eq('DummyJob:remaining_performs')
+    end
   end
 
   context 'custom matcher' do
